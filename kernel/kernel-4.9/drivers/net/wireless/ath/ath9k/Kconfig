@@ -190,6 +190,6 @@ config ATH9K_HWRNG
 config RT_WIFI
 	bool "RT-WiFi support"
 	depends on ATH9K
-	default n
+	default y
 	---help---
 	  Say Y, if you want to support TDMA MAC for your ATH9k driver.
