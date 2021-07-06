@@ -167,7 +167,7 @@ static void ath_detect_bt_priority(struct ath_softc *sc)
 		btcoex->bt_priority_time = jiffies;
 	}
 }
-static void ath9k_gen_timer_start(struct ath_hw *ah,
+/* static void ath9k_gen_timer_start(struct ath_hw *ah,
 				  struct ath_gen_timer *timer,
 				  u32 trig_timeout,
 				  u32 timer_period)
@@ -180,7 +180,7 @@ static void ath9k_gen_timer_start(struct ath_hw *ah,
 		ath9k_hw_set_interrupts(ah);
 		ath9k_hw_enable_interrupts(ah);
 	}
-}
+} */
 
 /* rt-wifi static void ath9k_gen_timer_stop(struct ath_hw *ah, struct ath_gen_timer *timer) */
 void ath9k_gen_timer_stop(struct ath_hw *ah, struct ath_gen_timer *timer)
