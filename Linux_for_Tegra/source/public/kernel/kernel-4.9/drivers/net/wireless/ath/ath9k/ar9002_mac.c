@@ -16,6 +16,7 @@
 
 #include "hw.h"
 #include <linux/export.h>
+#include "rt-wifi.h"
 
 #define AR_BufLen           0x00000fff
 
