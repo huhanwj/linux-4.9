@@ -4,11 +4,11 @@ Note: This guide only works on compiling and install on a Jetson device, not for
 
 Before you get hands on compiling and install modules, make sure that you have already read the documents provided by NVIDIA.
 
-[Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra Linux Driver Package Development Guide/quick_start.html)
+[Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/quick_start.html)
 
 [Developer Guide](mercury.pr.erau.edu/~siewerts/cs415/documents/Jetson/Tegra_Linux_Driver_Package_Developers_Guide.pdf) (**Just for reference! Outdated!**)
 
-[Kernel Customization](https://docs.nvidia.com/jetson/l4t/index.html#page/Tegra Linux Driver Package Development Guide/kernel_custom.html#)
+[Kernel Customization](https://docs.nvidia.com/jetson/l4t/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/kernel_custom.html#)
 
 **Make sure that you have downloaded all files in the *Linux_for_Tegra* folder.**
 
@@ -116,7 +116,7 @@ The following directories must be present:
 You must also have the USB cable connected to the recovery port prior to running the commands listed in the procedure.
 
 #### To flash the boot loader and kernel
-1. Put the target board into reset/recovery mode. For detailed procedures, follow the instructions in [Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra Linux Driver Package Development Guide/quick_start.html).
+1. Put the target board into reset/recovery mode. For detailed procedures, follow the instructions in [Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/quick_start.html).
 2. Run the flash.sh script that is in the top level directory of this release. The script must be supplied with the target board (jetson-nano-devkit) for the root file system: 
 
    ```bash
