@@ -77,7 +77,7 @@ UTS_MACHINE	:= aarch64
 endif
 
 CHECKFLAGS	+= -D__aarch64__
-
+HOSTCFLAGS  += -fcommon
 ifeq ($(CONFIG_ARM64_MODULE_CMODEL_LARGE), y)
 KBUILD_CFLAGS_MODULE	+= -mcmodel=large
 ifeq ($(CONFIG_LTO_CLANG), y)
