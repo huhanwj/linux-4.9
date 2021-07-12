@@ -143,15 +143,15 @@ cd tools
 sudo ./jetson-disk-image-creator.sh -o jetson_nano.img -b jetson-nano -r 300
 ```
 
-   `-r` is the revision number of the Jetson Nano module to be used:
+   > `-r` is the revision number of the Jetson Nano module to be used:
 
-   100 for revision A01
+   > 100 for revision A01
 
-   200 for revision A02
+   > 200 for revision A02
 
-   300 for revision B00 or B01
+   > 300 for revision B00 or B01
 
-5. Using *balenaEtcher* or other software to flash the create image file into your SD card.
+5. Using *balenaEtcher* or other software to flash the created image file into your SD card.
 
 
  
