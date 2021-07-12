@@ -1,8 +1,19 @@
 # RT-WiFi kernel Installation Guide on NVIDIA Jetson Nano
 
+**Instead of using the files from this repository, please use the files downloaded from NVIDIA.** You can find them in Jetson Download Center.
+
+Download the following sources from NVIDIA:
+1. L4T Jetson Driver Package
+2. L4T Sample Root File System
+3. L4T Sources
+
+Extract 1 and 3 after downloading them.
+---
 Note: This guide only works on compiling and install on a Jetson device, not for cross compiling.
 
 Before you get hands on compiling and install modules, make sure that you have already read the documents provided by NVIDIA.
+
+
 
 [Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/quick_start.html)
 
@@ -101,42 +112,44 @@ Follow the steps in this procedure to build the NVIDIA kernel.
    $ sudo make ARCH=arm64 O=$TEGRA_KERNEL_OUT modules_install INSTALL_MOD_PATH=<top>/Linux_for_Tegra/rootfs/
    ```
 
-## Flashing the Boot Loader and Kernel
+## How to make the customed kernel works?
+1. Extract *L4T Sample Root File System* into `Linux_for_Tegra/rootfs/`:
 
-This section describes the steps that must be taken to boot the target board by flashing the kernel and boot loader (code-name Jetson TK1 platform) and provides usage information for the `flash.sh` helper script. 
+```bash
+sudo tar xpf <your_dir>/Tegra_Linux_Sample-Root-Filesystem_R32.5.1_aarch64.tbz2 
+```
 
-### Flash Procedure
-#### Prerequisites
-The following directories must be present:
-* /bootloader: boot loader plus flashing tools (NvFlash, CFG, BCTs, etc.)
-* /kernel: a kernel zImage/vmlinux.uimg, DTB files, and kernel modules
-* /rootfs: the root file system that you download (This directory starts empty and you populate it with the sample file system.) 
-* /nv_tegra: NVIDIA® Tegra® user space binaries and sample applications 
+2. Archive the installed kernel modules using the following command:
 
-You must also have the USB cable connected to the recovery port prior to running the commands listed in the procedure.
+```bash
+cd <modules_install_path>
+sudo tar --owner root --group root -cjf kernel_supplements.tbz2 lib/modules
+```
 
-#### To flash the boot loader and kernel
-1. Put the target board into reset/recovery mode. For detailed procedures, follow the instructions in [Quick Start Guide](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3231/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/quick_start.html).
-2. Run the flash.sh script that is in the top level directory of this release. The script must be supplied with the target board (jetson-nano-devkit) for the root file system: 
+3. Move the archive to `Linux_for_Tegra/kernel/`:
 
-   ```bash
-   $ sudo ./flash.sh <platform> <rootdev>
-   ```
-   * If the root file system will be on a USB disk, execute the script as follows: 
-      ```bash
-      $ sudo ./flash.sh <platform> sda1 
-      ```
+```bash
+sudo mv kernel_supplements.tbz2  ../kernel/
+```
 
-   * If the root file system will be on an SD card, execute the script as follows:
-      ```bash
-      $ sudo ./flash.sh <platform> mmcblk1p1
-      ```
-   
-   * If the root file system will be on the internal eMMC, execute the script as follows:
-      ```bash
-      $ sudo ./flash.sh <platform> mmcblk0p1 
-      ```
+4. Create Jetson Nano image:
 
-   Where `<platform>` is jetson-nano-devkit.
+```bash
+cd ..
+sudo ./apply_binaries.sh
+cd tools
+sudo ./jetson-disk-image-creator.sh -o jetson_nano.img -b jetson-nano -r 300
+```
+
+`-r` is the revision number of the Jetson Nano module to be used:
+
+100 for revision A01
+
+200 for revision A02
+
+300 for revision B00 or B01
+
+5. Using *balenaEtcher* or other software to flash the create image file into your SD card.
+
 
  
