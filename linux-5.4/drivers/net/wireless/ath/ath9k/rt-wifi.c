@@ -315,7 +315,7 @@ void ath_rt_wifi_tx(struct ath_softc *sc, struct ath_buf *new_buf)
 							    //  related with the virtual address of both newest MPDU and latest MPDU??
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if (puttxbuf) {
-		TX_STAT_INC(sc, txq->axq_qnum, puttxbuf);
+		TX_STAT_INC(txq->axq_qnum, puttxbuf);
 		ath9k_hw_puttxbuf(ah, txq->axq_qnum, bf->bf_daddr);//u32 axq_qnum: ath9k hardware queue number 
 														   //This function builds up a link between
 														   //the hardware queue and the physical address
@@ -332,7 +332,7 @@ void ath_rt_wifi_tx(struct ath_softc *sc, struct ath_buf *new_buf)
 	REG_SET_BIT(ah, AR_DIAG_SW, AR_DIAG_IGNORE_VIRT_CS);
 	/*When the edma is not activated, how to transmit*/
 	if (!edma || sc->tx99_state) {
-		TX_STAT_INC(sc, txq->axq_qnum, txstart);
+		TX_STAT_INC(txq->axq_qnum, txstart);
 		ath9k_hw_txstart(ah, txq->axq_qnum);
 	}
 
@@ -374,6 +374,8 @@ void ath_rt_wifi_tasklet(struct ath_softc *sc)/*Define the method to access	 dat
 	sc->rt_wifi_asn = cur_hw_tsf >> ilog2((sc->rt_wifi_slot_len));
 
 	sched_offset = sc->rt_wifi_asn % sc->rt_wifi_superframe_size;
+
+	printk("RT-WiFi tasklet starts! The current time slot is %d\n", sched_offset);
 	if (sc->sc_ah->opmode == NL80211_IFTYPE_AP) {									// If you are AP
 		if (sc->rt_wifi_superframe[sched_offset].type == RT_WIFI_RX) {				// If the working type at this time slot is RT_WIFI_RX
 			RT_WIFI_DEBUG("RT_WIFI_RX(%d)\n", sched_offset);						
