@@ -374,8 +374,6 @@ void ath_rt_wifi_tasklet(struct ath_softc *sc)/*Define the method to access	 dat
 	sc->rt_wifi_asn = cur_hw_tsf >> ilog2((sc->rt_wifi_slot_len));
 
 	sched_offset = sc->rt_wifi_asn % sc->rt_wifi_superframe_size;
-
-	printk("RT-WiFi tasklet starts! The current time slot is %d\n", sched_offset);
 	if (sc->sc_ah->opmode == NL80211_IFTYPE_AP) {									// If you are AP
 		if (sc->rt_wifi_superframe[sched_offset].type == RT_WIFI_RX) {				// If the working type at this time slot is RT_WIFI_RX
 			RT_WIFI_DEBUG("RT_WIFI_RX(%d)\n", sched_offset);						

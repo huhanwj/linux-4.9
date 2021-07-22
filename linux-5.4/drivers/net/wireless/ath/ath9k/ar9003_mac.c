@@ -17,6 +17,7 @@
 #include "hw.h"
 #include "ar9003_mac.h"
 #include "ar9003_mci.h"
+#include "ar9003_csi.h"
 
 static void ar9003_hw_rx_enable(struct ath_hw *hw)
 {
@@ -30,6 +31,7 @@ ar9003_set_txdesc(struct ath_hw *ah, void *ds, struct ath_tx_info *i)
 	int checksum = 0;
 	u32 val, ctl12, ctl17;
 	u8 desc_len;
+	u_int8_t rate1,rate2,rate3,rate4;
 
 	desc_len = ((AR_SREV_9462(ah) || AR_SREV_9565(ah)) ? 0x18 : 0x17);
 
@@ -483,6 +485,9 @@ int ath9k_hw_process_rxdesc_edma(struct ath_hw *ah, struct ath_rx_status *rxs,
 	struct ar9003_rxs *rxsp = buf_addr;
 	unsigned int phyerr;
 
+	void *data_addr;
+	u_int16_t data_len;
+
 	if ((rxsp->status11 & AR_RxDone) == 0)
 		return -EINPROGRESS;
 
@@ -581,6 +586,22 @@ int ath9k_hw_process_rxdesc_edma(struct ath_hw *ah, struct ath_rx_status *rxs,
 
 	if (rxsp->status11 & AR_KeyMiss)
 		rxs->rs_status |= ATH9K_RXERR_KEYMISS;
+
+		data_len = rxs->rs_datalen;
+    data_addr = buf_addr + 48;
+    
+    if (rxsp->status11 & AR_CRCErr){
+        if (rxs->rs_rate >= 0x80){
+            csi_record_payload(data_addr,data_len);
+            csi_record_status(ah,rxs,rxsp,data_addr);
+        }
+    }else{
+        if  (rxs->rs_more == 1)
+            csi_record_payload(data_addr,data_len);
+
+        if (rxs->rs_rate >= 0x80)
+            csi_record_status(ah,rxs,rxsp,data_addr);
+ 	}
 
 	return 0;
 }

@@ -590,7 +590,7 @@ static void ath9k_beacon_config_ap(struct ath_softc *sc,
 
 
 
-	#ifdef CONFIG_RT_WIFI
+#ifdef CONFIG_RT_WIFI
 	if(sc->rt_wifi_timer == NULL) {
 		RT_WIFI_DEBUG("No timer is allocated.\n");
 	} else {
