@@ -1876,6 +1876,7 @@ int ath9k_hw_reset(struct ath_hw *ah, struct ath9k_channel *chan,
 	struct timespec64 tsf_ts;
 	u32 tsf_offset;
 	u64 tsf = 0;
+	u32 tmp;
 	int r;
 	bool start_mci_reset = false;
 	bool save_fullsleep = ah->chip_fullsleep;
