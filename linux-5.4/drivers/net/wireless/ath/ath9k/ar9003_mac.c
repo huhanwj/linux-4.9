@@ -152,11 +152,33 @@ ar9003_set_txdesc(struct ath_hw *ah, void *ds, struct ath_tx_info *i)
 		| set11nRateFlags(i->rates, 3)
 		| SM(i->rtscts_rate, AR_RTSCTSRate));
 
-	WRITE_ONCE(ads->ctl19, AR_Not_Sounding);
-
 	WRITE_ONCE(ads->ctl20, SM(i->txpower[1], AR_XmitPower1));
 	WRITE_ONCE(ads->ctl21, SM(i->txpower[2], AR_XmitPower2));
 	WRITE_ONCE(ads->ctl22, SM(i->txpower[3], AR_XmitPower3));
+
+	rate1 = (ads->ctl14 >> 24) & 0xff;
+    rate2 = (ads->ctl14 >> 16) & 0xff;
+    rate3 = (ads->ctl14 >> 8)  & 0xff;
+    rate4 = (ads->ctl14 >> 0)  & 0xff;
+
+    if ( rate1 >= 0x80 || rate2 >= 0x80 || rate3 >= 0x80){
+		WRITE_ONCE(ads->ctl19, 0);
+		ctl13 = (ads->ctl13) & ~(AR_xmit_data_tries1 | AR_xmit_data_tries2 | AR_xmit_data_tries3);
+		WRITE_ONCE(ads->ctl13, ctl13);
+		ctl20 = (ads->ctl20) & 0x3f000000;
+		ctl21 = (ads->ctl21) & 0x3f000000;
+		ctl22 = (ads->ctl22) & 0x3f000000;
+		WRITE_ONCE(ads->ctl20, ctl20);
+		WRITE_ONCE(ads->ctl21, ctl21);
+		WRITE_ONCE(ads->ctl22, ctl22);
+	}
+	else
+		WRITE_ONCE(ads->ctl19, AR_Not_Sounding);
+	if ( rate4 >= 0x80){
+	    WRITE_ONCE(ads->ctl19, 0);
+    }else{
+	   	WRITE_ONCE(ads->ctl19, AR_Not_Sounding);
+    }
 }
 
 static u16 ar9003_calc_ptr_chksum(struct ar9003_txc *ads)
