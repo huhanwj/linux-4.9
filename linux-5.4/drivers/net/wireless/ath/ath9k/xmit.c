@@ -2035,14 +2035,14 @@ static void ath_tx_txqaddbuf(struct ath_softc *sc, struct ath_txq *txq,
 	}
 
 	if (puttxbuf) {
-		TX_STAT_INC(txq->axq_qnum, puttxbuf);
+		TX_STAT_INC(sc, txq->axq_qnum, puttxbuf);
 		ath9k_hw_puttxbuf(ah, txq->axq_qnum, bf->bf_daddr);
 		ath_dbg(common, XMIT, "TXDP[%u] = %llx (%p)\n",
 			txq->axq_qnum, ito64(bf->bf_daddr), bf->bf_desc);
 	}
 
 	if (!edma || sc->tx99_state) {
-		TX_STAT_INC(txq->axq_qnum, txstart);
+		TX_STAT_INC(sc, txq->axq_qnum, txstart);
 		ath9k_hw_txstart(ah, txq->axq_qnum);
 	}
 
