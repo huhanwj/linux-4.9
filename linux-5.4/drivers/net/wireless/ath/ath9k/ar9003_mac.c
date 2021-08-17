@@ -156,7 +156,7 @@ ar9003_set_txdesc(struct ath_hw *ah, void *ds, struct ath_tx_info *i)
 	WRITE_ONCE(ads->ctl21, SM(i->txpower[2], AR_XmitPower2));
 	WRITE_ONCE(ads->ctl22, SM(i->txpower[3], AR_XmitPower3));
 
-	rate1 = (ads->ctl14 >> 24) & 0xff;
+/* 	rate1 = (ads->ctl14 >> 24) & 0xff;
     rate2 = (ads->ctl14 >> 16) & 0xff;
     rate3 = (ads->ctl14 >> 8)  & 0xff;
     rate4 = (ads->ctl14 >> 0)  & 0xff;
@@ -176,9 +176,9 @@ ar9003_set_txdesc(struct ath_hw *ah, void *ds, struct ath_tx_info *i)
 		WRITE_ONCE(ads->ctl19, AR_Not_Sounding);
 	if ( rate4 >= 0x80){
 	    WRITE_ONCE(ads->ctl19, 0);
-    }else{
+    }else{ */
 	   	WRITE_ONCE(ads->ctl19, AR_Not_Sounding);
-    }
+    //}
 }
 
 static u16 ar9003_calc_ptr_chksum(struct ar9003_txc *ads)
